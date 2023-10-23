@@ -9,15 +9,6 @@ namespace Bank.ConsoleApp
         {
             BANK bank = new BANK();
             string item = "";
-            //Account account = new Account();
-            //Account account2 = new Account();
-            //bank.CreateAccount(account);
-            //bank.CreateAccount(account2);
-            //bank.DepositMoney(1, 10000m);
-            //bank.WithdrawMoney(1, 100m);
-            //bank.WithdrawMoney(1, 1m);
-            //bank.TransferMoney(1, 2, 1m);
-            //bank.GetAllAccounts();
             do
             {
                 Console.WriteLine("Menu:");
@@ -123,7 +114,10 @@ namespace Bank.ConsoleApp
                             Console.WriteLine(e.Message);
                         }
                         break;
+                    case "0":
+                        break;
                     default:
+                        Console.Clear();
                         Console.WriteLine("bele secim yoxdur");
                         break;
                 }
