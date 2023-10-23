@@ -8,17 +8,166 @@ namespace Bank.ConsoleApp
         static void Main(string[] args)
         {
             BANK bank = new BANK();
-            Account account = new Account();
-            Account account2 = new Account();
-            bank.CreateAccount(account);
-            bank.CreateAccount(account2);
-            bank.DepositMoney(1, 10000m);
-            bank.WithdrawMoney(1, 100m);
-            bank.WithdrawMoney(1, 1m);
-            bank.TransferMoney(1, 2, 1m);
-            bank.GetAllAccounts();
+            string item = "";
+            //Account account = new Account();
+            //Account account2 = new Account();
+            //bank.CreateAccount(account);
+            //bank.CreateAccount(account2);
+            //bank.DepositMoney(1, 10000m);
+            //bank.WithdrawMoney(1, 100m);
+            //bank.WithdrawMoney(1, 1m);
+            //bank.TransferMoney(1, 2, 1m);
+            //bank.GetAllAccounts();
+            do
+            {
+                Console.WriteLine("Menu:");
+                Console.WriteLine("Welcome!");
+                Console.WriteLine("1. Create a new account");
+                Console.WriteLine("2. Invest money");
+                Console.WriteLine("3. Withdraw money");
+                Console.WriteLine("4. List of all accounts");
+                Console.WriteLine("5. Money transfers between accounts");
+                Console.WriteLine("0. Exit");
+                item = Console.ReadLine();
+                switch (item)
+                {
+                    case "1":
+                        Console.Clear();
+                        Account account = new Account();
+                        bank.CreateAccount(account);
+                        break;
+                    case "2":
+                        Console.Clear();
+                        string id = "";
+                        string amount = "";
+                        try
+                        {
+                        bank.DepositMoney(CheeckId(id), Cheeckamount(amount));
+
+                        }
+                        catch(AccountNotFoundException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                        catch(InvalidAmountException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+
+                        }
+                        break;
+                    case "3":
+                        Console.Clear();
+                        string id2 = "";
+                        string amount2= "";
+                        try
+                        {
+                        bank.WithdrawMoney(CheeckId(id2), Cheeckamount(amount2));
+
+                        }
+                        catch(InvalidAmountException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                        catch(AccountNotFoundException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                        catch (InsufficientFundsException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+
+                        }
+                        break;
+                    case "4":
+                        Console.Clear();
+                        bank.GetAllAccounts();
+                        break;
+                    case "5":
+                        Console.Clear();
+                        string fromid = "";
+                        string toid = "";
+                        string amount3 = "";
+                        try
+                        {
+                        Console.WriteLine("Payer Account");
+                        int fromid2 = CheeckId(fromid);
+                        Console.WriteLine("Money receiving account");
+                        int toid2= CheeckId(toid);
+                        bank.TransferMoney(fromid2, toid2, Cheeckamount(amount3));
+
+                        }
+                        catch (AccountNotFoundException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+
+                        catch(InsufficientFundsException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                        catch(InvalidAmountException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                        catch (Exception e)
+                        {
+
+                            Console.WriteLine(e.Message);
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("bele secim yoxdur");
+                        break;
+                }
+            } while (item != "0");
 
 
+        }
+        public static int CheeckId(string str) 
+        {
+            int id;
+            Console.WriteLine("Please enter your id");
+            
+            bool result = false;
+            do
+            {
+                str = Console.ReadLine();
+                result = int.TryParse(str, out id);
+                if (!result)
+                {
+                    throw new InvalidAmountException("This value is not true");
+                }
+            } while (!result);
+            return id;
+        }
+        public static decimal Cheeckamount(string str)
+        {
+            decimal amount;
+            bool result = false;
+            Console.WriteLine("please enter amount");
+            do
+            {
+                str = Console.ReadLine();
+                result = decimal.TryParse(str, out amount);
+                if (!result)
+                {
+                    throw new InvalidAmountException("This value is not true");
+                }
+            } while (!result);
+            if (amount < 0)
+            {
+                throw new InvalidAmountException("This value is not true");
+            }
+            
+            return amount;
         }
     }
 }
