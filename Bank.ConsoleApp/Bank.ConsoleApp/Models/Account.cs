@@ -26,11 +26,11 @@ namespace Bank.ConsoleApp.Models
 
         public void Withdraw(decimal amount)
         {
-            Balance -=amount;
-            if (Balance < 0)
+            if (Balance < amount)
             {
                 throw new InsufficientFundsException("There are not enough funds in your balance");
             }
+            Balance -=amount;
             Transaction transaction = new Transaction(Balance, "Withdraw");
             transactions.Add(transaction);
             Console.WriteLine(transaction);
