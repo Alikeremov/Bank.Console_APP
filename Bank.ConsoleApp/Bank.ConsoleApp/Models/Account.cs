@@ -18,17 +18,24 @@ namespace Bank.ConsoleApp.Models
 
         public void Deposit(decimal amount)
         {
-            Balance += amount;
-            Transaction transaction = new Transaction(Balance,"Deposit");
-            transactions.Add(transaction);
-            Console.WriteLine(transaction);
+            if(amount>0)
+            {
+                Balance += amount;
+                Transaction transaction = new Transaction(Balance, "Deposit");
+                transactions.Add(transaction);
+                Console.WriteLine(transaction);
+            }
+            else
+            {
+                throw new InsufficientFundsException("You can't pay this value");
+            }
         }
 
         public void Withdraw(decimal amount)
         {
-            if (Balance < amount)
+            if (Balance < amount || amount==0)
             {
-                throw new InsufficientFundsException("There are not enough funds in your balance");
+                throw new InsufficientFundsException("You can't pay this value");
             }
             Balance -=amount;
             Transaction transaction = new Transaction(Balance, "Withdraw");

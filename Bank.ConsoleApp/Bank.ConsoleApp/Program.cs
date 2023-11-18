@@ -33,8 +33,13 @@ namespace Bank.ConsoleApp
                         string amount = "";
                         try
                         {
-                        bank.DepositMoney(CheeckId(id), Cheeckamount(amount));
+                            bank.CheckAccauntIsNull();
+                            bank.DepositMoney(bank.CheeckId(id), Cheeckamount(amount));
 
+                        }
+                        catch(MyNullAbleException e)
+                        {
+                            Console.WriteLine(e.Message);
                         }
                         catch(AccountNotFoundException e)
                         {
@@ -49,6 +54,7 @@ namespace Bank.ConsoleApp
                             Console.WriteLine(e.Message);
 
                         }
+
                         break;
                     case "3":
                         Console.Clear();
@@ -56,8 +62,13 @@ namespace Bank.ConsoleApp
                         string amount2= "";
                         try
                         {
-                        bank.WithdrawMoney(CheeckId(id2), Cheeckamount(amount2));
+                            bank.CheckAccauntIsNull();
+                            bank.WithdrawMoney(bank.CheeckId(id2), Cheeckamount(amount2));
 
+                        }
+                        catch(MyNullAbleException e)
+                        {
+                            Console.WriteLine(e.Message);
                         }
                         catch(InvalidAmountException e)
                         {
@@ -79,7 +90,20 @@ namespace Bank.ConsoleApp
                         break;
                     case "4":
                         Console.Clear();
-                        bank.GetAllAccounts();
+                        try
+                        {
+                            bank.CheckAccauntIsNull();
+                            bank.GetAllAccounts();
+
+                        }
+                        catch(MyNullAbleException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                         break;
                     case "5":
                         Console.Clear();
@@ -88,12 +112,17 @@ namespace Bank.ConsoleApp
                         string amount3 = "";
                         try
                         {
-                        Console.WriteLine("Payer Account");
-                        int fromid2 = CheeckId(fromid);
-                        Console.WriteLine("Money receiving account");
-                        int toid2= CheeckId(toid);
-                        bank.TransferMoney(fromid2, toid2, Cheeckamount(amount3));
+                            bank.CheckAccauntForTransfer();
+                            Console.WriteLine("Payer Account");
+                            int fromid2 = bank.CheeckId(fromid);
+                            Console.WriteLine("Money receiving account");
+                            int toid2= bank.CheeckId(toid);
+                            bank.TransferMoney(fromid2, toid2, Cheeckamount(amount3));
 
+                        }
+                        catch(MyNullAbleException e)
+                        {
+                            Console.WriteLine(e.Message);
                         }
                         catch (AccountNotFoundException e)
                         {
@@ -125,23 +154,24 @@ namespace Bank.ConsoleApp
 
 
         }
-        public static int CheeckId(string str) 
-        {
-            int id;
-            Console.WriteLine("Please enter your id");
+        //public static int CheeckId(string str) 
+        //{
+
+        //    int id;
+        //    Console.WriteLine("Please enter your id");
             
-            bool result = false;
-            do
-            {
-                str = Console.ReadLine();
-                result = int.TryParse(str, out id);
-                if (!result)
-                {
-                    throw new InvalidAmountException("This value is not true");
-                }
-            } while (!result);
-            return id;
-        }
+        //    bool result = false;
+        //    do
+        //    {
+        //        str = Console.ReadLine();
+        //        result = int.TryParse(str, out id);
+        //        if (!result)
+        //        {
+        //            throw new InvalidAmountException("This value is not true");
+        //        }
+        //    } while (!result);
+        //    return id;
+        //}
         public static decimal Cheeckamount(string str)
         {
             decimal amount;
